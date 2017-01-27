@@ -1,0 +1,63 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="floating-input-behaviour.html">
+
+<!--
+Textarea element with a floating label if textarea field has focus or content.
+-->
+<dom-module id="floating-textarea" attributes="name value label rows cols required">
+    <style>
+        .floating-label {
+            cursor: text;
+            transition: 0.4s all;
+        }
+
+        .floating-label[active] {
+            transform: translate(0.8em, 2.4em);
+            color: #bbb;
+            font-weight: 200;
+        }
+    </style>
+
+    <template strip-whitespace>
+        <div class="form-group">
+            <label hidden$=[[!label]]
+                   for="floating-textarea-[[name]]"
+                   class="floating-label"
+                   active$="[[active]]"
+                   on-tap="_onLabelTap">
+                [[label]]
+            </label>
+
+            <textarea id="floating-textarea-[[name]]"
+                      class="form-control"
+                      name$="[[name]]"
+                      rows$="[[rows]]"
+                      cols$="[[cols]]"
+                      required$="[[required]]"
+                      on-change="_onTextareaChange"
+                      on-keyup="_onKeyUp"
+                      on-focus="_onFocus"
+                      on-blur="_onBlur">{{value}}</textarea>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'floating-textarea',
+
+            behaviors: [
+                Polymer.FloatingInputBehaviour
+            ],
+
+            /**
+             * Update the textarea value back to its attribute "value".
+             *
+             * @private
+             */
+            _onTextareaChange: function (e) {
+                this.set('value', this._getValue(e.target.value));
+            }
+        });
+    </script>
+</dom-module>

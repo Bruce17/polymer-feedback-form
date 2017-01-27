@@ -1,0 +1,178 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!--
+Custom radio button form elements displaying rating icons.
+-->
+<dom-module id="rating-radio" attributes="value required">
+    <style>
+        :host {
+            display: flex;
+            justify-content: space-around;
+
+            /* Define some variables for this template. */
+            --radio-button-size: 3em;
+            --radio-button-glow-color: #3072ab;
+            --radio-button-glow-size: 7px;
+            --radio-button-default-opacity: 0.5;
+            --radio-button-cursor: pointer;
+        }
+
+        label {
+            display: flex;
+            flex-direction: column;
+            cursor: var(--radio-button-cursor);
+        }
+
+        /* Hide radio button dots */
+        label > input {
+            order: 1;
+
+            /* This seems to be the only way to get clickable (hidden) radio buttons in IE. */
+            position: absolute;
+            opacity: 0;
+            margin:0;
+            padding:0;
+            width: var(--radio-button-size);
+            height: var(--radio-button-size);
+            cursor: var(--radio-button-cursor);
+        }
+
+        /* Radio button image style */
+        label > input + img {
+            order: 2;
+            align-self: center;
+
+            cursor: var(--radio-button-cursor);
+            width: var(--radio-button-size);
+            height: var(--radio-button-size);
+
+            opacity: var(--radio-button-default-opacity);
+        }
+
+        /* Radio button (checked) image style */
+        label > input:checked + img {
+            opacity: 1;
+
+            border-radius: var(--radio-button-size);
+            box-shadow: 0 0 var(--radio-button-glow-size) 0 var(--radio-button-glow-color);
+        }
+
+        label:hover > input + img {
+            opacity: 1;
+        }
+
+        /* Text element beneath image icon with a textual feedback of the icon. */
+        label > input ~ .text {
+            order: 3;
+            align-self: center;
+
+            opacity: 0;
+            text-transform: uppercase;
+            font-size: 0.5em;
+            margin-top: 1ex;
+        }
+
+        label:hover > input         ~ .text,
+        label       > input:checked ~ .text {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            label > input ~ .text {
+                font-size: 0.7em;
+            }
+        }
+    </style>
+
+    <template>
+        <template is="dom-repeat" items="[[items]]">
+            <label>
+                <input type="radio" name="rating" value="[[item.val]]" on-change="_onChange" required$="[[required]]">
+                <img src="[[getImagePath(item.img)]]" alt="[[item.text]]" on-tap="_onTap">
+                <span class="text">[[item.text]]</span>
+            </label>
+        </template>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'rating-radio',
+
+            properties: {
+                value: {
+                    type: String,
+                    value: null,
+                    notify: true,
+                    reflectToAttribute: true
+                },
+                required: {
+                    type: Boolean,
+                    value: false
+                },
+
+                items: {
+                    type: Array,
+                    value: [
+                        {val: 1, img: '1f620', text: 'hate'},
+                        {val: 2, img: '1f641', text: 'dislike'},
+                        {val: 3, img: '1f610', text: 'neutral'},
+                        {val: 4, img: '1f642', text: 'like'},
+                        {val: 5, img: '1f618', text: 'love'}
+//                        {val: 5, img: '1f603', text: 'love'}
+                    ],
+                    readonly: true
+                },
+                imgType: {
+                    type: String,
+                    value: 'svg',
+                    readonly: true
+                },
+                imgPath: {
+                    type: String,
+                    value: 'https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/[TYPE]/[IMG].[TYPE]',
+                    readonly: true
+                }
+            },
+
+            /**
+             * Prepare image url for a given image and type.
+             *
+             * @param {string} img
+             * @return {string}
+             */
+            getImagePath: function (img) {
+                return this.imgPath
+                    .replace('[IMG]', img)
+                    .replace(/\[TYPE\]/g, this.imgType);
+            },
+
+            /**
+             * On radio button change, update the external value.
+             *
+             * @param {Event} e
+             * @private
+             */
+            _onChange: function (e) {
+                this.set('value', e.target.value);
+            },
+
+            /**
+             * Set a clicked element as active especially on mobile devices.
+             *
+             * @param {Event} e
+             * @private
+             */
+            _onTap: function (e) {
+                var el;
+
+                if (e.target.nodeName === 'LABEL') {
+                    el = e.target;
+                } else {
+                    el = e.target.parentNode;
+                }
+
+                el.querySelector('input').checked = true;
+            }
+        });
+    </script>
+</dom-module>

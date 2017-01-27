@@ -1,0 +1,228 @@
+<link rel="import" href="../assets/vendor/polymer/polymer.html">
+
+<link rel="import" href="loading-spinner.html">
+<link rel="import" href="reusable-elements/rating-radio.html">
+<link rel="import" href="reusable-elements/floating-input.html">
+<link rel="import" href="reusable-elements/floating-textarea.html">
+
+<!--
+Feedback form custom element.
+-->
+<dom-module id="feedback-element" attributes="url route request-uri name email">
+    <style>
+        .feedback-container {
+            position: absolute;
+            top: 20%;
+            right: -1.9em;
+
+            z-index: 9999;
+
+            padding: 0.8ex 0.8em;
+
+            transform: rotate(-90deg);
+
+            color: #fff;
+            background-color: #f67f8b;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+
+        .overlay {
+            display: block;
+
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+
+            z-index: 999999;
+
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .overlay-form {
+            display: block;
+
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            width: 300px;
+
+            /* margin is -0.5 * dimension */
+            margin-left: -150px;
+
+            z-index: 9999999;
+        }
+
+        @media (max-width: 768px) {
+            .overlay-form {
+                top: 3%;
+                width: 90%;
+                margin-left: -45%;
+            }
+        }
+
+        .input {
+            margin-top: 5px;
+        }
+
+        :host([hidden]),
+        .overlay[hidden],
+        .overlay-form[hidden] {
+            display: none !important;
+        }
+    </style>
+
+    <template>
+        <div hidden$="[[!overlayActive]]" class="overlay" on-tap="hideOverlay"></div>
+        <div hidden$="[[!overlayActive]]" class="overlay-form">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Feedback</h3>
+                </div>
+
+                <form class="panel-body"
+                      on-submit="onSubmit"
+                      action="[[url]]"
+                      hidden$="[[!formActive]]">
+                    <rating-radio value="{{rating}}" required></rating-radio>
+
+                    <floating-input name="name"
+                                    type="text"
+                                    value="{{name}}"
+                                    label="Name"
+                                    required
+                    ></floating-input>
+
+                    <floating-input name="email"
+                                    type="email"
+                                    value="{{email}}"
+                                    label="E-Mail"
+                                    required
+                    ></floating-input>
+
+                    <floating-textarea name="message"
+                                       value="{{message}}"
+                                       rows="3"
+                                       label="Your Feedback Message"
+                                       required
+                    ></floating-textarea>
+
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-sm" type="submit">Submit</button>
+                        <button class="btn btn-default btn-sm" type="reset" on-tap="hideOverlay">Cancel</button>
+                    </div>
+                </form>
+
+                <loading-spinner active$="[[loadingSpinnerActive]]"></loading-spinner>
+            </div>
+        </div>
+
+        <div class="feedback-container" on-tap="feedbackTap">
+            <span>Feedback</span>
+        </div>
+    </template>
+
+    <script>
+        (function (navigator, undefined) {
+            Polymer({
+                is: 'feedback-element',
+
+                properties: {
+                    // External attribute values
+                    url: String,
+                    route: String,
+                    'request-uri': String,
+
+                    // Form values external manipulatable
+                    name: String,
+                    email: String,
+                    // Form values only
+                    message: String,
+                    rating: String,
+
+                    overlayActive: {
+                        type: Boolean,
+                        value: false
+                    },
+                    formActive: {
+                        type: Boolean,
+                        value: true
+                    },
+                    loadingSpinnerActive: {
+                        type: Boolean,
+                        value: false
+                    }
+                },
+
+                /**
+                 * @param {Event} e
+                 */
+                feedbackTap: function (e) {
+                    this.set('overlayActive', true);
+                },
+
+                /**
+                 * Hide the overlay and disable the loading spinner.
+                 */
+                hideOverlay: function (e) {
+                    this.set('overlayActive', false);
+                    this.loadingSpinnerStatus(false);
+
+                    // Reset form content.
+                    this.$$('form').reset();
+                    this.set('message', '');
+                },
+
+                /**
+                 * Change the loading spinner state.
+                 *
+                 * @param {boolean} isActive Active the loading spinner and hide the feedback form.
+                 */
+                loadingSpinnerStatus: function (isActive) {
+                    this.set('formActive', !isActive);
+                    this.set('loadingSpinnerActive', isActive);
+                },
+
+                /**
+                 * Submit form data via ajax.
+                 *
+                 * @param {Event} e
+                 */
+                onSubmit: function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    var context = this;
+                    var data = {
+                        route: context.get('route'),
+                        requestUri: context.get('request-uri'),
+                        user: {
+                            name: context.get('name'),
+                            email: context.get('email')
+                        },
+                        rating: context.get('rating'),
+                        message: context.get('message'),
+                        userAgent: navigator.userAgent
+                    };
+
+                    context.loadingSpinnerStatus(true);
+
+                    // TODO: replace with a jQuery less ajax solution
+                    $.ajax({
+                        url: context.get('url'),
+                        method: 'post',
+                        data: data,
+                        complete: function () {
+                            // Hide dialog after submit is complete and reactivate
+                            context.hideOverlay();
+                        }
+                    });
+
+                    return false;
+                }
+            });
+        })(window.navigator);
+    </script>
+</dom-module>

@@ -1,0 +1,96 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<!--
+Behaviour for floating input/textarea elements.
+-->
+<script>
+Polymer.FloatingInputBehaviour = {
+    properties: {
+        value: {
+            type: String,
+            value: null,
+            notify: true,
+            reflectToAttribute: true
+        },
+
+        active: {
+            type: Boolean,
+            value: true
+        },
+        hasFocus: {
+            type: Boolean,
+            value: false
+        }
+    },
+
+    /**
+     * @param {Event} e
+     * @private
+     */
+    _onKeyUp: function (e) {
+        var value = this._getValue(e.target.value);
+
+        this.changeActive(!(!!value && value.length > 0) && !this.hasFocus);
+    },
+
+    /**
+     * @param {Event} e
+     * @private
+     */
+    _onFocus: function (e) {
+        this.set('active', false);
+        this.set('hasFocus', true);
+    },
+
+    /**
+     * @param {Event} e
+     * @private
+     */
+    _onBlur: function (e) {
+        var value = this._getValue(e.target.value);
+
+        this.changeActive(!(!!value && value.length > 0));
+        this.set('hasFocus', false);
+    },
+
+    /**
+     * If label is clicked, focus the element beneath the label.
+     *
+     * @param {Event} e
+     * @private
+     */
+    _onLabelTap: function (e) {
+        e.target.nextSibling.focus();
+    },
+
+    /**
+     * Get trimmed value from a target element.
+     *
+     * @param {string} value
+     * @return {string}
+     * @private
+     */
+    _getValue: function (value) {
+        var val = value || this.get('value');
+
+        return (!!val ? val.trim() : '');
+    },
+
+    /**
+     * Change if input field is active or not.
+     *
+     * @param {boolean} target
+     */
+    changeActive: function (target) {
+        this.set('active', target);
+    },
+
+    /**
+     * Constructor
+     * Check if input field has already a input value.
+     */
+    ready: function () {
+        this.changeActive(!(this._getValue().length > 0));
+    }
+};
+</script>

@@ -1,0 +1,27 @@
+{
+  "name": "polymer-feedback-form",
+  "homepage": "https://github.com/Bruce17/polymer-feedback-form",
+  "authors": [
+    "Bruce17 <Bruce17@users.noreply.github.com>"
+  ],
+  "description": "Simple feedback form using Polymer webcomponents",
+  "main": "src/feedback-element.html",
+  "keywords": [
+    "polymer",
+    "web components",
+    "webcomponents",
+    "feedback",
+    "form"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "^1.7.1"
+  }
+}
