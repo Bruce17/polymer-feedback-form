@@ -1,0 +1,28 @@
+{
+  "name": "polymer-feedback-form",
+  "version": "1.0.0",
+  "description": "Simple polymer feedback form test application",
+  "main": "src/feedback-element.html",
+  "devDependencies": {
+    "vulcanize": "^1.15.3"
+  },
+  "scripts": {
+    "build": "vulcanize src/feedback-element.html -o build/elements.vulcanized.html",
+    "deploy:ci": "./deploy-ghpages.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bruce17/polymer-feedback-form.git"
+  },
+  "keywords": [
+    "polymer",
+    "feedback",
+    "form"
+  ],
+  "author": "Bruce17 <Bruce17@users.noreply.github.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Bruce17/polymer-feedback-form/issues"
+  },
+  "homepage": "https://github.com/Bruce17/polymer-feedback-form#readme"
+}

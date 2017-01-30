@@ -1,0 +1,27 @@
+language: node_js
+
+branches:
+  except:
+    - gh-pages
+
+env:
+  global:
+    - DEPLOY_BRANCH="master"
+    - TARGET_BRANCH="gh-pages"
+    - SOURCE_DIR="docs"
+    - GIT_NAME="Travis-CI"
+    - GIT_EMAIL="deploy@travis-ci.org"
+    - GITHUB_REF="github.com/Bruce17/polymer-feedback-form.git"
+    # Will be injected by Travis itself.
+    #- GITHUB_TOKEN=""
+
+before_script:
+  - npm install
+  - bower install
+
+script:
+  - npm run build
+
+after_success:
+  # Deploy results to "gh-pages" branch
+  - npm run deploy:ci
