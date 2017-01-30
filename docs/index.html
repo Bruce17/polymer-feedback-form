@@ -4,14 +4,53 @@
     <meta charset="UTF-8">
     <title>Polymer Feedback Form Demo</title>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
     <link rel="import" href="elements.vulcanized.html">
 </head>
 <body>
-    <h1>Polymer Feeback Form Demo Application</h1>
+    <div class="container">
+        <h1>Polymer Feeback Form Demo Application</h1>
+        <p>
+            Please click on the "feedback" button on the left to test this application.
+        </p>
 
-    <p>
-        Please click on the "feedback" button on the left to test this application.
-    </p>
+        <h2>Options</h2>
+        <p>
+            Provide options:
+
+            <table class="table">
+                <tr>
+                    <th>url</th>
+                    <td>Backend url to which the form content will be sent (required).</td>
+                </tr>
+                <tr>
+                    <th>route</th>
+                    <td>Called route (current site) e.g. a Symfony route "site_index_index".</td>
+                </tr>
+                <tr>
+                    <th>request-uri</th>
+                    <td>Raw request uri without host e.g. "blog/some/page.html"</td>
+                </tr>
+                <tr>
+                    <th>name</th>
+                    <td>Prefilled username e.g. if user is alreay logged in.</td>
+                </tr>
+                <tr>
+                    <th>email</th>
+                    <td>Prefilled email e.g. if user is already logged in.</td>
+                </tr>
+            </table>
+        </p>
+
+        <h2>Example</h2>
+        <p>
+            <code>
+                &lt;feedback-element url="localhost"&gt;&lt;/feedback-element&gt;
+            </code>
+        </p>
+    </div>
 
     <feedback-element url="localhost"
                       route="mybundle_controller_action"
