@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ev
 
 # Change to generate docs dir.
 cd ${SOURCE_DIR}
