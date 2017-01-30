@@ -24,6 +24,7 @@ env:
     #- GITHUB_TOKEN=""
 
 before_script:
+  - npm install -g bower
   - npm install
   - bower install
 
