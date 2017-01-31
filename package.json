@@ -6,7 +6,6 @@
   "devDependencies": {
     "crisper": "^2.0.2",
     "html-minifier": "^3.3.0",
-    "polyclean": "^1.3.1",
     "polylint": "^2.10.4",
     "uglifyjs": "^2.4.10",
     "vulcanize": "^1.15.3"
@@ -15,7 +14,7 @@
     "lint": "polylint > /dev/null 2>&1",
     "prebuild": "npm run build:prepare-dir",
     "postbuild": "npm run build:minify:js && npm run build:minify:html",
-    "build": "vulcanize src/feedback-element.html -o build/elements.vulcanized.html --inline-scripts --inline-css --strip-comments | polyclean | crisper --source build/elements.vulcanized.html --html build/elements.vulcanized.html --js build/elements.crisper.js",
+    "build": "vulcanize src/feedback-element.html -o build/elements.vulcanized.html --inline-scripts --inline-css --strip-comments | crisper --source build/elements.vulcanized.html --html build/elements.vulcanized.html --js build/elements.crisper.js",
     "build:prepare-dir": "mkdir build",
     "build:minify:js": "uglifyjs --compress --mangle -o build/elements.crisper.js -- build/elements.crisper.js",
     "build:minify:html": "html-minifier --minify-css --minify-js -o build/elements.vulcanized.html build/elements.vulcanized.html",
