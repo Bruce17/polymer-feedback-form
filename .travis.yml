@@ -29,6 +29,9 @@ before_script:
   - bower install
 
 script:
+  # Lint files
+  - npm run lint
+  # Build polymer files
   - npm run build
 
 after_success:

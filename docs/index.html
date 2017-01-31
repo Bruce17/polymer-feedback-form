@@ -21,26 +21,57 @@
             Provide options:
 
             <table class="table">
-                <tr>
-                    <th>url</th>
-                    <td>Backend url to which the form content will be sent (required).</td>
-                </tr>
-                <tr>
-                    <th>route</th>
-                    <td>Called route (current site) e.g. a Symfony route "site_index_index".</td>
-                </tr>
-                <tr>
-                    <th>request-uri</th>
-                    <td>Raw request uri without host e.g. "blog/some/page.html"</td>
-                </tr>
-                <tr>
-                    <th>name</th>
-                    <td>Prefilled username e.g. if user is alreay logged in.</td>
-                </tr>
-                <tr>
-                    <th>email</th>
-                    <td>Prefilled email e.g. if user is already logged in.</td>
-                </tr>
+            <thead>
+            <tr>
+                <th>Parameter</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Required</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>url</th>
+                <td>String</td>
+                <td>Backend url to which the form content will be sent (required).</td>
+                <td>&checkmark;</td>
+            </tr>
+            <tr>
+                <th>route</th>
+                <td>String</td>
+                <td>Called route (current site) e.g. a Symfony route "site_index_index".</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>route-parameters</th>
+                <td>Array (Json)</td>
+                <td>Additional router parameters e.g. "id = 42". This might be Symfony route parameters.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>request-uri</th>
+                <td>String</td>
+                <td>Raw request uri without host e.g. "blog/some/page.html"</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>name</th>
+                <td>String</td>
+                <td>Prefilled username e.g. if user is already logged in.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>email</th>
+                <td>String</td>
+                <td>Prefilled email e.g. if user is already logged in.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>with-screenshot</th>
+                <td>Boolean</td>
+                <td>Add a browser screenshot to the feedback form.</td>
+            </tr>
+            </tbody>
             </table>
         </p>
 
