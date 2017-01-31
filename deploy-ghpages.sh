@@ -11,6 +11,7 @@ git config user.email "${GIT_EMAIL}"
 
 # Copy files from other folders.
 yes | cp -f ../build/elements.vulcanized.html elements.vulcanized.html
+yes | cp -f ../build/elements.crisper.js elements.crisper.js
 
 # Add new files.
 git add .
