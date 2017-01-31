@@ -12,7 +12,7 @@
     "vulcanize": "^1.15.3"
   },
   "scripts": {
-    "lint": "polylint",
+    "lint": "polylint > /dev/null 2>&1",
     "prebuild": "npm run build:prepare-dir",
     "postbuild": "npm run build:minify:js && npm run build:minify:html",
     "build": "vulcanize src/feedback-element.html -o build/elements.vulcanized.html --inline-scripts --inline-css --strip-comments | polyclean | crisper --source build/elements.vulcanized.html --html build/elements.vulcanized.html --js build/elements.crisper.js",
