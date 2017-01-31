@@ -239,16 +239,24 @@
 
                     context.loadingSpinnerStatus(true);
 
-                    // TODO: replace with a jQuery less ajax solution
-                    $.ajax({
-                        url: context.get('url'),
-                        method: 'post',
-                        data: data,
-                        complete: function () {
-                            // Hide dialog after submit is complete and reactivate
-                            context.hideOverlay();
+                    // Send data using raw ajax. Quick'n'dirty ;-)
+                    var xhr = (window.ActiveXObject) ? new ActiveXObject("Microsoft.XMLHTTP") : (XMLHttpRequest && new XMLHttpRequest()) || null;
+                    if (xhr === null) {
+                        console.warn('Ajax is not available in your browser.');
+                        return;
+                    }
+
+                    xhr.open('POST', context.get('url'));
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.send(JSON.stringify(data));
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState != 4 || xhr.status != 200) {
+                            return;
                         }
-                    });
+
+                        // Hide dialog after submit is complete and reactivate
+                        context.hideOverlay();
+                    };
 
                     return false;
                 }

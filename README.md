@@ -13,6 +13,7 @@ Please visit the [demo application](https://bruce17.github.io/polymer-feedback-f
 
 **TODO**
 
+
 ## Options
 
 | Parameter        	| Type       	| Description                                                                          	| Required 	|
@@ -62,4 +63,8 @@ Add a logged in user's username and email to the feedback form:
 
 ## TODO
 
-* Replace $.ajax with a jQuery less solution e.g. VanillaJS or Polymer ajax
+* Installation instructions
+* Add to:
+    * NPM
+    * Bower
+    * Webcomponents
