@@ -30,7 +30,7 @@ before_script:
 
 script:
   # Lint files
-  - npm run lint
+#  - npm run lint
   # Build polymer files
   - npm run build
 
